@@ -1,0 +1,42 @@
+{% extends 'dashboard/main.html'%}
+
+{% load static %}
+{% block content %}
+            <!-- Recent Sales Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">messages list</h6>
+                     </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+
+                                <tr class="text-white">
+                                    <th scope="col">usarname</th>
+                                     <th scope="col">Name</th>
+                                    <th scope="col">email </th>
+                                    <th scope="col">subject</th>
+                                    <th scope="col">message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for mess in contactus %}
+                                <tr>
+                                    <td>{{mess.user}}</td>
+                                    <td>{{mess.name}}</td>
+                                    <td>{{mess.email}}</td>
+
+                                    <td>{{ mess.subject }}</td>
+                                    <td>{{emp.message}}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
+
+
+ {% endblock %}

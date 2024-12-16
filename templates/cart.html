@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+    <title>Cart</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Start All Title Box -->
+{% if not request.user.is_authenticated or request.user.is_anonymous %}
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <h5 class="alert alert-warning">
+            You must be
+            <a href="{% url 'login' %}" class="text-dark">Login</a>
+        </h5>
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
+        </div>
+    </div>
+
+{% else %}
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for line in orderdetails %}
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+                                            <img class="img-fluid" src="{{ line.product.image.url }}" style="width:80px;height:80px" alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="{% url 'meal_detail' line.id %}">
+                                            {{ line.product.name }}
+                                        </a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ {{ line.price }}</p>
+                                    </td>
+                                    <td class="quantity-box"> {{ line.quantity }}</td>
+                                    <td class="total-pr">
+                                        <p>${% widthratio line.quantity 1 line.price %}</p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="{% url 'remove_from_cart' orderdetails_id=line.id %}">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row center my-5">
+                <div class="col-lg-8 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="order-box">
+                        <h3>Order summary</h3>
+                        <div class="d-flex">
+                            <h4>Full Name:</h4>
+                            <div class="ml-auto font-weight-bold"> {{ request.user.username }}</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Number of Products: </h4>
+                            <div class="ml-auto font-weight-bold">  {{ orderdetails.count }} </div>
+                        </div>
+
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5"> $ {{ total }} </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-12 d-flex shopping-box"><a href="{% url 'payment' %}" class="ml-auto btn hvr-hover btn btn-primary tm-btn-big">Checkout</a> </div>
+                <div class="col-12 d-flex shopping-box"><a href="{% url 'index' %}" class="ml-auto btn hvr-hover ">Continue Shopping</a> </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- End Cart -->
+{% endif %}
+{% endblock %}

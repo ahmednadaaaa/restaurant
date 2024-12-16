@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<title>Checkout example · Bootstrap v5.0</title>
+ <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+
+<link rel="stylesheet" href="{% static 'css/form-validation.css' %}">
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Checkout</h1>
+    </div>
+</div>
+
+<div class="container">
+    <main>
+        <div class="tm-hero d-flex justify-content-center align-items-center"
+             data-parallax="scroll"
+             data-image-src="{% static '/img/240_F_91010045_vC0W7q1D7oQZajbnZxH7VLEvgNb6zYal.jpg' %}">
+            <form id="paymentForm" method="POST">
+                {% csrf_token %}
+                <div class="py-5 text-center">
+                    <div class="form-check">
+                        <input id="credit" name="payment_method" value="card" type="radio" class="form-check-input"
+                               required>
+                        <label class="form-check-label" for="credit">Credit card</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input id="cash" name="payment_method" value="cash" type="radio" class="form-check-input"
+                               required>
+                        <label class="form-check-label" for="cash">Cash</label>
+                    </div>
+                </div>
+
+                <div id="creditCardForm" style="display: none;">
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label for="cc-ship_address" class="form-label">Shipment Address</label>
+                            <input type="text" class="form-control" id="cc-ship_address" name="ship_address"
+                                   placeholder="" required value="{{ ship_address }}">
+                            <small class="text-muted">Full name as displayed on card</small>
+                            <div class="invalid-feedback">
+                                Shipment Address is required
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="cc-ship_phone" class="form-label">Shipment Phone</label>
+                            <input type="text" class="form-control" name="ship_phone" id="cc-ship_phone"
+                                   placeholder="" required value="{{ ship_phone }}">
+                            <div class="invalid-feedback">
+                                Shipment Phone is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label for="cc-card_number" class="form-label">Card Number</label>
+                            <input type="text" class="form-control" id="cc-card_number" name="card_number"
+                                   placeholder="3333 3333 3333 3333 " required value="{{ card_number }}">
+                            <small class="text-muted">Full number as displayed on card</small>
+                            <div class="invalid-feedback">
+                                Card Number is required
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="cc-expire" class="form-label">Expiration</label>
+                            <input type="text" class="form-control" id="cc-expire" placeholder="mm/yy" name="expire"
+                                   required value="{{ expire }}">
+                            <div class="invalid-feedback">
+                                Expiration date required
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="cc-security_code" class="form-label">Security Code</label>
+                            <input type="text" class="form-control" name="security_code" id="cc-security_code"
+                                   placeholder="333" required value="{{ security_code }}">
+                            <div class="invalid-feedback">
+                                Security code required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cashForm" style="display: none;">
+                    <!-- Cash payment form fields here -->
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label for="cc-ship_address" class="form-label">your Address 1</label>
+                            <input type="text" class="form-control" id="cc-ship_address" name="ship_address"
+                                   placeholder="" required value="{{ ship_address }}">
+                            <div class="invalid-feedback">
+                                Shipment Address is required
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="cc-ship_address" class="form-label"> Address 2</label>
+                            <input type="text" class="form-control" id="cc-ship_address" name="ship_address"
+                                   placeholder="" required value="{{ ship_address }}">
+                            <div class="invalid-feedback">
+                                Shipment Address is required
+                            </div>
+                        </div>
+
+                         <div class="col-md-6">
+                            <label for="cc-ship_address" class="form-label">your Phone 1</label>
+                            <input type="text" class="form-control" id="cc-ship_address" name="ship_address"
+                                   placeholder="" required value=" ">
+                            <div class="invalid-feedback">
+                                 Shipment Phone is required
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="cc-ship_phone" class="form-label"> Phone2</label>
+                            <input type="text" class="form-control" name="ship_phone" id="cc-ship_phone"
+                                   placeholder="" required value="{{ ship_phone }}">
+                            <div class="invalid-feedback">
+                                Shipment Phone is required
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center">
+                    <button class="w-100 btn btn-primary btn-lg" name="btnpayment" type="submit">Continue to
+                        checkout
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/form-validation.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('credit').addEventListener('change', function () {
+            document.getElementById('creditCardForm').style.display = 'block';
+            document.getElementById('cashForm').style.display = 'none';
+        });
+
+        document.getElementById('cash').addEventListener('change', function () {
+            document.getElementById('creditCardForm').style.display = 'none';
+            document.getElementById('cashForm').style.display = 'block';
+        });
+    });
+</script>
+
+{% endblock %}

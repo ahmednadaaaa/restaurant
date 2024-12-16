@@ -1,0 +1,44 @@
+{% extends 'dashboard/main.html'%}
+
+{% load static %}
+{% block content %}
+            <!-- Recent Sales Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Table Booked list</h6>
+                     </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+
+                                <tr class="text-white">
+                                    <th scope="col">ID</th>
+                                     <th scope="col">Name</th>
+                                    <th scope="col">email</th>
+                                    <th scope="col">Date Reservation</th>
+                                    <th scope="col">num of people</th>
+                                    <th scope="col"> message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for table in booktable %}
+                                <tr>
+                                    <td>{{table.id}}</td>
+                                    <td>{{table.name}}</td>
+                                    <td>{{table.email}}</td>
+
+                                    <td>{{ table.date_reservation }}</td>
+                                    <td>{{table.num_people}}</td>
+                                     <td>{{table.message}}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
+
+
+ {% endblock %}
